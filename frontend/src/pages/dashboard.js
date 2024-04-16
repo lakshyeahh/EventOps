@@ -1,6 +1,7 @@
 import { Flex, Heading, Button } from '@radix-ui/themes';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Cards from '../components/cards';
 
 
 
@@ -97,6 +98,7 @@ function Dashboard() {
         </div>
       )}
     </nav>
+    <Cards/>
   </div>
   
   )

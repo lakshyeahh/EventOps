@@ -3,10 +3,19 @@ const app = express();
 import router from './routes/index.js';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import http from 'http';
+import { Server } from 'socket.io';
+
+
 dotenv.config();
 app.use(express.json())
 
-const PORT = process.env.PORT || 5000
+//adding socket.io configuration
+// const server = http.createServer(app);
+// const io = new Server(server);
+
+
+const PORT = process.env.PORT || 6000
 
 app.get("/", function (req,res){
   res.sendFile(
@@ -21,6 +30,16 @@ app.get("/", function (req,res){
 
 //routes
 app.use('/api', router)
+
+
+//io handling
+// io.on('connection', (socket) => {
+//   console.log('a user connected', socket.id);
+//   socket.on('comment', () => {
+//     console.log('new approval received');
+//     io.emit("new-comment");
+//   })
+// })
 
 
 mongoose.connect(process.env.MONGO_URI)
