@@ -9,7 +9,8 @@ const eventSchema = new mongoose.Schema({
     roomNumber: { type: String }, // Assuming it's applicable only for offline events
     dateTime: { type: Date},
     expectedParticipation: { type: Number, required: true },
-    index: { type: Number, default: 1 }
+    index: { type: Number, default: 1 },
+    author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' } // Assuming 'User' is the name of your user model
   }, { timestamps: true });
 
 

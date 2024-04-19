@@ -12,6 +12,7 @@ import {
 } from '@radix-ui/themes';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import Logo from '../images/logo_pec.png'
 
 
 
@@ -65,9 +66,13 @@ function Login() {
     <Flex flexShrink="0" gap="6" direction="column" width="416px" style={{ margin: 'auto', marginTop: '20px' }}>
       <Card size="4">
         <form onSubmit={handleSubmit}>
-          <Heading as="h3" size="6" trim="start" mb="5">
+          <div style={{ backgroundColor: '#3E63DD', margin: '-31px', padding: '30px', marginBottom: '20px', height: '30px'}}>
+          
+          <Heading as="h3" size="6" trim="start" mb="5" style={{ color: 'white'}}>
             Login
           </Heading>
+          </div>
+          
 
           <Box mb="5">
             <Flex mb="1">

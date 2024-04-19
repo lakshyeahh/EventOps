@@ -11,8 +11,8 @@ dotenv.config();
 app.use(express.json())
 
 //adding socket.io configuration
-// const server = http.createServer(app);
-// const io = new Server(server);
+const server = http.createServer(app);
+const io = new Server(server);
 
 
 const PORT = process.env.PORT || 6000
@@ -33,20 +33,20 @@ app.use('/api', router)
 
 
 //io handling
-// io.on('connection', (socket) => {
-//   console.log('a user connected', socket.id);
-//   socket.on('comment', () => {
-//     console.log('new approval received');
-//     io.emit("new-comment");
-//   })
-// })
+io.on('connection', (socket) => {
+  console.log('a user connected', socket.id);
+  socket.on('add', () => {
+    socket.broadcast.emit("new-add");
+
+  })
+})
 
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('connected to database')
     // listen to port
-    app.listen(PORT, () => {
+    server.listen(PORT, () => {
       console.log('listening for requests on port', PORT)
     })
   })

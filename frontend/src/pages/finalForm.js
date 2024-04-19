@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { Button } from '@radix-ui/themes';
+import Nabvar from '../components/navbar';
 
 
 
@@ -83,7 +84,8 @@ function FinalForm() {
 
 
   return (
-    
+    <div>
+    <Nabvar/>
     <div id="page-content" className='form-containerr' style={{ margin: '30px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
   {error && <p>{error}</p>}
   <div className='header' style={{ textAlign: 'center', marginBottom: '20px' }}>
@@ -100,36 +102,38 @@ function FinalForm() {
   </div>
 
   <div className='inputs-container' style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', width: '70%', textAlign: 'center' }}>
-    <label htmlFor="societyName" style={{ border: '1px solid #000', padding: '5px' }}>Name of Society:</label>
-    <label  id="societyName" name="societyName" style={{ border: '1px solid #000', padding: '5px' }} >{eventData.clubName}</label>
+    <strong htmlFor="societyName" style={{ border: '1px solid #000', padding: '5px' }}>Name of Society:</strong>
+    <label  id="societyName" name="societyName" style={{ border: '1px solid #000', padding: '5px' , fontWeight: 'bold'}} >{eventData.clubName}</label>
 
-    <label htmlFor="eventName" style={{ border: '1px solid #000', padding: '5px' }}>Event Name:</label>
-    <label  id="societyName" name="societyName" style={{ border: '1px solid #000', padding: '5px' }} >{eventData.eventName}</label>
+    <strong htmlFor="eventName" style={{ borderLeft: '1px solid #000', borderTop: '1px solid #000', borderBottom: '1px solid #000', padding: '5px', height: '100px' }}>Event Name:</strong>
+<label htmlFor="eventName" id="eventName" name="eventName" style={{ borderTop: '1px solid #000', borderRight: '1px solid #000', borderBottom: '1px solid #000', padding: '5px', fontWeight: 'bold' , height: '100px'}}>{eventData.eventName}</label>
 
-    <label htmlFor="briefDescription" style={{ border: '1px solid #000', padding: '5px' }}>Brief Description:</label>
-    <label  id="societyName" name="societyName" style={{ border: '1px solid #000', padding: '5px' }} >{eventData.briefDescription}</label>
 
-    <label htmlFor="eventMode" style={{ border: '1px solid #000', padding: '5px' }}>Event Mode:</label>
-    <label  id="societyName" name="societyName" style={{ border: '1px solid #000', padding: '5px' }} >{eventData.eventMode}</label>
+    <strong htmlFor="briefDescription" style={{ borderLeft: '1px solid #000', borderTop: '1px solid #000', borderBottom: '1px solid #000', padding: '5px', height: '120px' }}>Brief Description:</strong>
+<label htmlFor="briefDescription" id="societyName" name="societyName" style={{ borderTop: '1px solid #000', borderRight: '1px solid #000', borderBottom: '1px solid #000', padding: '5px', fontWeight: 'bold', height: '120px' }}>{eventData.briefDescription}</label>
 
-    <label htmlFor="roomNumber" style={{ border: '1px solid #000', padding: '5px' }}>Room Number:</label>
-    <label  id="societyName" name="societyName" style={{ border: '1px solid #000', padding: '5px' }} >{eventData.roomNumber}</label>
 
-    <label htmlFor="dateTime" style={{ border: '1px solid #000', padding: '5px' }}>Date & Time:</label>
-    <input type="datetime-local" id="dateTime" name="dateTime" style={{ border: '1px solid #000', padding: '5px' }} />
+    <strong htmlFor="eventMode" style={{ border: '1px solid #000', padding: '5px' }}>Event Mode:</strong>
+    <label  id="societyName" name="societyName" style={{ border: '1px solid #000', padding: '5px' , fontWeight: 'bold'}} >{eventData.eventMode}</label>
 
-    <label htmlFor="expectedParticipation" style={{ border: '1px solid #000', padding: '5px' }}>Expected Participation:</label>
-    <label  id="societyName" name="societyName" style={{ border: '1px solid #000', padding: '5px' }} >{eventData.expectedParticipation}</label>
+    <strong htmlFor="roomNumber" style={{ border: '1px solid #000', padding: '5px' }}>Room Number:</strong>
+    <label  id="societyName" name="societyName" style={{ border: '1px solid #000', padding: '5px' , fontWeight: 'bold'}} >{eventData.roomNumber}</label>
 
-    <label htmlFor="audience" style={{ border: '1px solid #000', padding: '5px' }}>Audience:</label>
-    <label  id="societyName" name="societyName" style={{ border: '1px solid #000', padding: '5px' }} >{eventData.expectedParticipation}</label>
+    <strong htmlFor="dateTime" style={{ border: '1px solid #000', padding: '5px' }}>Date & Time:</strong>
+    <input type="datetime-local" id="dateTime" name="dateTime" style={{ border: '1px solid #000', padding: '5px', fontWeight: 'bold' }} />
+
+    <strong htmlFor="expectedParticipation" style={{ border: '1px solid #000', padding: '5px' }}>Expected Participation:</strong>
+    <label  id="societyName" name="societyName" style={{ border: '1px solid #000', padding: '5px' , fontWeight: 'bold'}} >{eventData.expectedParticipation}</label>
+
+    <strong htmlFor="audience" style={{ border: '1px solid #000', padding: '5px' }}>Audience:</strong>
+    <label  id="societyName" name="societyName" style={{ border: '1px solid #000', padding: '5px' , fontWeight: 'bold'}} >{eventData.expectedParticipation}</label>
   </div>
   <p id='note' style={{ textAlign: 'left', fontFamily: 'times-new-roman', fontWeight: 'bold', margin: '0' }}>
       Note: The undersigned takes full responsibility for any damage to the institute's property in the above-mentioned rooms during the mentioned time.
       <br />
       Any financial assistance required? (Yes/No)
     </p>
-    <div className='signature-container' style={{fontFamily: 'times-new-roman', fontWeight: 'bold'}}>
+    <div className='signature-container' style={{fontFamily: 'times-new-roman', fontWeight: 'bold', width: '50%', height: '20%'}}>
       <div className="signature-item">
         <img src={Secy} alt="Photo 1" />
         <label>(Secretary/Joint Secretary)</label>
@@ -156,7 +160,7 @@ function FinalForm() {
   </Button>
 </div>
 
-
+</div>
 
   
   )

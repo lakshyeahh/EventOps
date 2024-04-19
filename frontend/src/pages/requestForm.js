@@ -4,6 +4,7 @@ import './requestform.css';
 import { Heading, Box, RadioCards, Flex, Text } from '@radix-ui/themes';
 import { useNavigate } from 'react-router-dom';
 import * as RadioGroup from '@radix-ui/react-radio-group';
+import Nabvar from '../components/navbar';
 
 
 const RequestForm = () => {
@@ -18,28 +19,41 @@ const RequestForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const token = sessionStorage.getItem('accessToken');
+        if (!token) {
+          navigate('/');
+          return;
+        }
+        
+        const responseu = await fetch('/api/me', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        const datau = await responseu.json();
+        const author = datau._id.toString();
+        
+        
+
+
       const response = await fetch('/api/cards', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ clubName, eventName, briefDescription, eventMode, roomNumber, expectedParticipation })
+        body: JSON.stringify({ clubName, eventName, briefDescription, eventMode, roomNumber, expectedParticipation, author })
       });
 
-      const data = await response.json();
+      
 
       if (!response.ok) {
         throw new Error('Failed to submit form');
       }
 
-      const { event_token, eventData } = data;
-      console.log(event_token);
       
-      // Manually encode the event_token
-      const encodedToken = encodeURIComponent(event_token);
-      
-      const queryParams = new URLSearchParams(encodedToken);
-      navigate(`/dashboard/requestform/${queryParams}`);
+      navigate('/dashboard');
       
       // Handle success response from backend
       console.log('Form submitted successfully');
@@ -50,6 +64,9 @@ const RequestForm = () => {
   }
 
   return (
+    <div>
+      <Nabvar/>
+   
     <div className="form-container" style={{ display: 'grid', height: '110vh', margin: '30px' }}>
       <div className='heading-container' style={{ backgroundColor: 'blue', margin: '-50px',marginBottom: '20px', padding: '50px', borderTopLeftRadius: '20px', borderTopRightRadius: '20px', height: '20px'}}>
       <Heading as="h3" size="6" trim="start" mb="5" style={{ textAlign: 'center', color: 'white' }}>
@@ -225,6 +242,7 @@ const RequestForm = () => {
           </button>
         </Form.Submit>
       </Form.Root>
+    </div>
     </div>
   )
 }
