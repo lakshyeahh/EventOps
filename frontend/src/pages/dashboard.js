@@ -14,7 +14,7 @@ function Dashboard() {
   useEffect(() => {
     const fetchMeData = async () => {
       try {
-        const token = localStorage.getItem('accessToken');
+        const token = sessionStorage.getItem('accessToken');
         if (!token) {
           alert("Login First!");
           throw new Error('Access token not found');
@@ -43,7 +43,7 @@ function Dashboard() {
 
   const logout = async () => {
     try {
-      const token = localStorage.getItem('accessToken');
+      const token = sessionStorage.getItem('accessToken');
         if (!token) {
           throw new Error('Access token not found');
         }
@@ -54,14 +54,14 @@ function Dashboard() {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ refresh_token: localStorage.getItem('refreshToken') })
+        body: JSON.stringify({ refresh_token: sessionStorage.getItem('refreshToken') })
       });
 
       if (response.ok) {
         // If logout is successful, clear the local storage and update the user authentication state
 
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
+        sessionStorage.removeItem('accessToken');
+        sessionStorage.removeItem('refreshToken');
 
         // Update user authentication state (e.g., set isAuthenticated to false)
         // Redirect to the login page or any other desired page
@@ -75,18 +75,29 @@ function Dashboard() {
       console.error('Error:', error);
     }
   };
-
+  const index = userData ? userData.role : null;
+  const showRequestButton = index === 0;
+  
 
   return (
     <div>
     {error && <p>{error}</p>}
-    <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 20px', backgroundColor: '#767D74' }}>
+    <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 20px', backgroundColor: '#ADF0DD' }}>
       <Heading as="h3" size="6" trim="start" mb="5" style={{ margin: 0 }}>
         Dashboard
       </Heading>
       {userData && (
+        
         <div style={{ display: 'flex', alignItems: 'center' }}>
+         <div>
+    {showRequestButton && (
+      <Link to='/dashboard/requestform'>
+        <Button color="green" variant="outline" highContrast style={{ marginRight: '10px', translate: '-50px' }}>Request Event</Button>
+      </Link>
+    )}
+  </div>
           <p style={{ marginRight: '20px' }}>Welcome, {userData.name}!</p>
+          
           <Button onClick={logout} style={{ marginRight: '10px' }}>Log Out</Button>
           <Link to='/dashboard/user'>
             <Button>

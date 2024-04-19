@@ -65,6 +65,7 @@ const cardController = {
             return next(err);
         }
 
+        console.log(event_token);
         res.json({ event_token, event });
     },
 
@@ -74,7 +75,7 @@ const cardController = {
 
         try {
             // Assuming user's access level is stored in req.user.level
-            const user = await User.findOne({ _id: req.user._id }).select('-password -updatedAt -__v');
+            const user = await User.findOne({ _id: req.user._id });
             if (!user) {
                 return res.status(404).json({ message: 'User not found' });
             }
@@ -87,6 +88,26 @@ const cardController = {
 
             
             res.json(cards);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+
+
+    },
+    async loadOne(req, res, next) {
+
+
+        try {
+            
+            const event = await Event.findOne({ _id: req.user._id });
+            
+
+            if (!event) {
+                return res.status(404).json({ message: 'Event not found' });
+            }
+
+            console.log(event);
+            res.status(200).json(event);
         } catch (error) {
             res.status(500).json({ message: error.message });
         }

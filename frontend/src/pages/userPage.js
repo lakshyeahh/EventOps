@@ -9,7 +9,7 @@ function UserPage() {
   useEffect(() => {
     const fetchMeData = async () => {
       try {
-        const token = localStorage.getItem('accessToken');
+        const token = sessionStorage.getItem('accessToken');
         if (!token) {
           alert("Login First!");
           throw new Error('Access token not found');

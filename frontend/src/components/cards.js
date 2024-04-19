@@ -1,59 +1,39 @@
 import React, { useState, useEffect } from 'react';
-
 import { Box, Card, Flex, Text, Button } from '@radix-ui/themes';
-// import { io } from 'socket.io-client';
-
-
-// const socket = io('/', {
-//     reconnection: true
-// })
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Cards = () => {
-    
     const [eventData, setEventData] = useState([]);
     const [error, setError] = useState(null);
 
-
-    
-
-
-        const fetchEventData = async () => {
-            try {
-                const token = localStorage.getItem('accessToken');
-                const response = await fetch('/api/cards', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error('Failed to fetch user data');
+    const fetchEventData = async () => {
+        try {
+            const token = sessionStorage.getItem('accessToken');
+            const response = await fetch('/api/cards', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
                 }
+            });
 
-                const data = await response.json();
-                setEventData(data);
-            } catch (error) {
-                setError(error.message);
+            if (!response.ok) {
+                throw new Error('Failed to fetch user data');
             }
-        };
 
-        useEffect(() => {
+            const data = await response.json();
+            setEventData(data);
+        } catch (error) {
+            setError(error.message);
+        }
+    };
+
+    useEffect(() => {
         fetchEventData();
-
-
-
     }, []);
 
-    // useEffect(() => {
-    //     console.log('SOCKET IO', socket);
-    //     socket.on('new-comment', () => {
-    //         fetchEventData();
-    //     })
-    // }, [])
-
-    const handleApprove =  async (eventId) => {
-        try{
+    const handleApprove = async (eventId) => {
+        try {
             const response = await fetch(`/api/cards/${eventId}`, {
                 method: 'PATCH',
                 headers: {
@@ -64,24 +44,22 @@ const Cards = () => {
             if (!response.ok) {
                 throw new Error('Failed to patch event');
             }
-        
-            fetchEventData();
-            
 
-        }catch(error) {
-            // Handle any errors that occur during the request
+            
+            toast.success('Event Approved Successfully');
+            fetchEventData();
+        } catch (error) {
             console.error('Error patching event:', error);
         }
     };
 
-    // let uiEventUpdate = eventData;
     return (
         <Box width="70%" className="cards-container" align="center" margin="20px">
             {eventData.map(event => (
                 <Card key={event._id} size="3" className="event-card">
                     <Flex gap="4" align="center">
                         <Box>
-                            <Text as="div" size="4" weight="bold">
+                        <Text as="div" size="4" weight="bold">
                                 {event.clubName}
                             </Text>
                             <Text as="div" size="2" color="gray">
@@ -108,8 +86,10 @@ const Cards = () => {
             ))}
             {/* Display error message if there's an error */}
             {error && <div>Error: {error}</div>}
+            {/* ToastContainer for displaying toast notifications */}
+            <ToastContainer />
         </Box>
     );
-}
+};
 
 export default Cards;
