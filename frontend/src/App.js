@@ -6,6 +6,8 @@ import Login from './pages/login';
 import SignUp from './pages/signUp';
 import Dashboard from './pages/dashboard';
 import UserPage from './pages/userPage';
+import RequestForm from './pages/requestForm';
+import FinalForm from './pages/finalForm';
 
 
 function App() {
@@ -33,6 +35,14 @@ function App() {
             <Route
               path="/dashboard/user"
               element={<UserPage />}
+            />
+            <Route
+              path="/dashboard/requestform"
+              element={<RequestForm />}
+            />
+            <Route
+              path="/dashboard/requestform/:event_token"
+              element={<FinalForm />}
             />
 
           </Routes>

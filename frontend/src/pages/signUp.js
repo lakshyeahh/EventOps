@@ -41,8 +41,8 @@ function SignUp() {
             if (response.ok) {
                 const { user, access_token, refresh_token } = data;
 
-                localStorage.setItem('accessToken', access_token);
-                localStorage.setItem('refreshToken', refresh_token);
+                sessionStorage.setItem('accessToken', access_token);
+                sessionStorage.setItem('refreshToken', refresh_token);
                 
                 const userName = user.name;
                 navigate('/dashboard');

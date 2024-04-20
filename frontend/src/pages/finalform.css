@@ -1,0 +1,33 @@
+.signature-container {
+    margin: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    grid-column-gap: 250px;
+    grid-row-gap: 5px;
+  }
+
+  .signature-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .signature-item img {
+    width: 100%;
+    height: auto;
+    max-width: 200px; /* adjust as needed */
+  }
+
+  .signature-item label {
+    margin-top: 10px;
+    font-size: 20px;
+  }
+
+  .inputs-container{
+    font-family: 'Times New Roman', Times, serif;
+  }
+
+  #note{
+    width: 70%;
+  }

@@ -18,6 +18,7 @@ const cardController = {
             roomNumber: Joi.string(), // Assuming it's applicable only for offline events
             dateTime: Joi.date(),
             expectedParticipation: Joi.number().required(),
+            author: Joi.string().required()
         });
 
         const { error } = eventSchemaJoi.validate(req.body);
@@ -40,7 +41,8 @@ const cardController = {
             eventMode,
             roomNumber,
             dateTime,
-            expectedParticipation
+            expectedParticipation,
+            author
         } = req.body;
 
         const event = new Event({
@@ -50,7 +52,8 @@ const cardController = {
             eventMode,
             roomNumber,
             dateTime,
-            expectedParticipation
+            expectedParticipation,
+            author
         });
 
         let event_token;
@@ -65,6 +68,7 @@ const cardController = {
             return next(err);
         }
 
+        console.log(event_token);
         res.json({ event_token, event });
     },
 
@@ -74,19 +78,52 @@ const cardController = {
 
         try {
             // Assuming user's access level is stored in req.user.level
-            const user = await User.findOne({ _id: req.user._id }).select('-password -updatedAt -__v');
+            const user = await User.findOne({ _id: req.user._id });
             if (!user) {
                 return res.status(404).json({ message: 'User not found' });
             }
+            const userid = user._id;
             const roleUser = user.role;
-            const cards = await Event.find({ index: roleUser });
+            const cards = await Event.find({
+                $or: [
+                  { index: roleUser },
+                  { author: userid }
+                ]
+              });
 
             if (cards.length === 0) {
                 return res.status(404).json({ message: 'No events for you' });
             }
 
             
-            res.json(cards);
+            const responseData = {
+                user: user,
+                cards: cards
+            };
+            res.json(responseData);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+
+
+    },
+    
+    async loadOne(req, res, next) {
+
+
+        try {
+            
+            const eventId = req.headers.authorization.split(' ')[1];
+
+            const event = await Event.findOne({ _id: eventId });
+            
+
+            if (!event) {
+                return res.status(404).json({ message: 'Event not found' });
+            }
+
+            console.log(event);
+            res.status(200).json(event);
         } catch (error) {
             res.status(500).json({ message: error.message });
         }

@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Heading, Text, Card, Inset } from '@radix-ui/themes';
-
+import { useNavigate } from 'react-router-dom';
+import Nabvar from '../components/navbar';
 
 function UserPage() {
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMeData = async () => {
       try {
-        const token = localStorage.getItem('accessToken');
+        const token = sessionStorage.getItem('accessToken');
         if (!token) {
-          alert("Login First!");
+          navigate('/');
+          return;
           throw new Error('Access token not found');
         }
 
@@ -37,6 +40,8 @@ function UserPage() {
   }, []);
 
   return (
+    <div>
+      <Nabvar/>
     
     <Box
     maxWidth="500px"
@@ -74,6 +79,7 @@ function UserPage() {
       )}
     </Card>
   </Box>
+  </div>
   );
 }
 

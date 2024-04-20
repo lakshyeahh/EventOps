@@ -23,6 +23,10 @@ router.post('/cards', cardController.upload);
 
 router.patch('/cards/:id', cardController.update);
 
+router.get('/cards/one', cardController.loadOne);
+
+
+
 
 
 
