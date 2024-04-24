@@ -1,0 +1,5 @@
+.highlighted-date {
+  background-color: #bc9b38; /* Change to your preferred highlight color */
+  color: #000; /* Change to your preferred text color */
+  border-radius: 50%; /* Optional: Makes the highlighted date circular */
+}

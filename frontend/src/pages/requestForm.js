@@ -5,6 +5,8 @@ import { Heading, Box, RadioCards, Flex, Text } from '@radix-ui/themes';
 import { useNavigate } from 'react-router-dom';
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import Nabvar from '../components/navbar';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 
 const RequestForm = () => {
@@ -14,7 +16,29 @@ const RequestForm = () => {
   const [eventMode, setEventMode] = useState('');
   const [roomNumber, setRoomNumber] = useState('');
   const [expectedParticipation, setExpectedParticipation] = useState('');
+  const [dateTime, setDateTime] = useState(null);
   const navigate = useNavigate();
+
+
+  const handleDateChange = async (date) => {
+    setDateTime(date);
+    try {
+      const response = await fetch('/api/cards/room', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ dateTime: date }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
+      }
+      const data = await response.json();
+      console.log('Data received:', data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,13 +61,13 @@ const RequestForm = () => {
         
         
 
-
+console.log('Selected Date:', dateTime);
       const response = await fetch('/api/cards', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ clubName, eventName, briefDescription, eventMode, roomNumber, expectedParticipation, author })
+        body: JSON.stringify({ clubName, eventName, briefDescription, eventMode, roomNumber, expectedParticipation, author, dateTime })
       });
 
       
@@ -67,183 +91,128 @@ const RequestForm = () => {
     <div>
       <Nabvar/>
    
-    <div className="form-container" style={{ display: 'grid', height: '110vh', margin: '30px' }}>
-      <div className='heading-container' style={{ backgroundColor: 'blue', margin: '-50px',marginBottom: '20px', padding: '50px', borderTopLeftRadius: '20px', borderTopRightRadius: '20px', height: '20px'}}>
-      <Heading as="h3" size="6" trim="start" mb="5" style={{ textAlign: 'center', color: 'white' }}>
-        Fill Event Details
-      </Heading>
-      </div>
-      
-      <Form.Root className="FormRoot" onSubmit={handleSubmit}>
-        <div className='club-event' style={{ display: 'flex', gap: '70px' }}>
-          <Form.Field className="FormField" name="clubName">
-            <div style={{ display: 'flex', alignItems: 'baseline' , justifyContent: 'space-between'}}>
-              <Form.Label className="FormLabel">Club Name</Form.Label>
-              <Form.Message className="FormMessage" match="valueMissing">
-                Please enter the club name
-              </Form.Message>
-            </div>
-            <Form.Control asChild>
-              <input className="Input" type="text" required value={clubName}
-                onChange={(e) => setClubName(e.target.value)} />
-            </Form.Control>
-          </Form.Field>
-          <Form.Field className="FormField" name="eventName">
-            <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
-              <Form.Label className="FormLabel">Event Name</Form.Label>
-              <Form.Message className="FormMessage" match="valueMissing">
-                Please enter the event name
-              </Form.Message>
-            </div>
-            <Form.Control asChild>
-              <input className="Input" type="text" required value={eventName}
-                onChange={(e) => setEventName(e.target.value)} />
-            </Form.Control>
-          </Form.Field>
+      <div className="form-container" style={{ display: 'grid', height: '110vh', margin: '30px' }}>
+  <div className='heading-container' style={{ backgroundColor: 'blue', margin: '-50px',marginBottom: '20px', padding: '50px', borderTopLeftRadius: '20px', borderTopRightRadius: '20px', height: '20px'}}>
+    <h3 style={{ textAlign: 'center', color: 'white' }}>
+      Fill Event Details
+    </h3>
+  </div>
+  
+  <form className="FormRoot" onSubmit={handleSubmit}>
+    <div className='club-event' style={{ display: 'flex', gap: '70px' }}>
+      <div className="FormField">
+        <div style={{ display: 'flex', alignItems: 'baseline' , justifyContent: 'space-between'}}>
+          <label className="FormLabel">Club Name</label>
+          <p className="FormMessage" style={{ color: 'red' }}>
+            Enter Club Name
+          </p>
         </div>
-
-        <Form.Field className="FormField" name="briefDescription">
-          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
-            <Form.Label className="FormLabel">Brief Description</Form.Label>
-            <Form.Message className="FormMessage" match="valueMissing">
-              Please enter a brief description
-            </Form.Message>
-          </div>
-          <Form.Control asChild>
-            <textarea className="Textarea" required value={briefDescription} style={{ width: '67rem', height: '8rem' }}
-              onChange={(e) => setBriefDescription(e.target.value)} />
-          </Form.Control>
-        </Form.Field>
-        <Form.Field className="FormField" name="eventMode">
-          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
-            <Form.Label className="FormLabel">Event Mode</Form.Label>
-            <Form.Message className="FormMessage" match="valueMissing">
-              Please enter the event mode
-            </Form.Message>
-          </div>
-
-          {/* <RadioGroup.Root
-  className="RadioGroupRoot"
-  defaultValue={eventMode}
-  aria-label="Event Mode"
-  onChange={(value) => setEventMode(value)}
->
-  <div style={{ display: 'flex', alignItems: 'center' }}>
-    <RadioGroup.Item className="RadioGroupItem" value="Online" id="r1">
-      <RadioGroup.Indicator className="RadioGroupIndicator" />
-    </RadioGroup.Item>
-    <label className="Label" htmlFor="r1" style={{ color: 'black' }}>
-      ONLINE
-    </label>
-  </div>
-  <div style={{ display: 'flex', alignItems: 'center' }}>
-    <RadioGroup.Item className="RadioGroupItem" value="Offline" id="r2">
-      <RadioGroup.Indicator className="RadioGroupIndicator" />
-    </RadioGroup.Item>
-    <label className="Label" htmlFor="r2" style={{ color: 'black' }}>
-      OFFLINE
-    </label>
-  </div>
-</RadioGroup.Root> */}
-<Form.Control asChild>
-              <input className="Input" type="text" required value={eventMode}
-                onChange={(e) => setEventMode(e.target.value)} />
-            </Form.Control>
-      
-       
-
-
-
-
-        </Form.Field>
-        <Form.Field className="FormField" name="roomNumber">
-          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
-            <Form.Label className="FormLabel">Room Number</Form.Label>
-            <Form.Message className="FormMessage" match="valueMissing">
-              Please enter the room number
-            </Form.Message>
-          </div>
-          {/* <Box maxWidth="600px">
-  <RadioCards.Root defaultValue={roomNumber} columns={{ initial: '1', sm: '3' }} style={{ display: 'flex', flexWrap: 'nowrap', overflowX: 'auto' }}>
-    <RadioCards.Item value="L20" className="radio-card" style={{ width: '90px', height: '50px' }}>
-      <Flex direction="column">
-        <Text weight="bold">L 20</Text>
-      </Flex>
-    </RadioCards.Item>
-    <RadioCards.Item value="L21" className="radio-card" style={{ width: '90px', height: '50px' }}>
-      <Flex direction="column">
-        <Text weight="bold">L 21</Text>
-      </Flex>
-    </RadioCards.Item>
-    <RadioCards.Item value="L22" className="radio-card" style={{ width: '90px', height: '50px' }}>
-      <Flex direction="column">
-        <Text weight="bold">L 22</Text>
-      </Flex>
-    </RadioCards.Item>
-    <RadioCards.Item value="L23" className="radio-card" style={{ width: '90px', height: '50px' }}>
-      <Flex direction="column">
-        <Text weight="bold">L 23</Text>
-      </Flex>
-    </RadioCards.Item>
-    <RadioCards.Item value="L24" className="radio-card" style={{ width: '90px', height: '50px' }}>
-      <Flex direction="column">
-        <Text weight="bold">L 24</Text>
-      </Flex>
-    </RadioCards.Item>
-    <RadioCards.Item value="L29" className="radio-card" style={{ width: '90px', height: '50px' }}>
-      <Flex direction="column">
-        <Text weight="bold">L 29</Text>
-      </Flex>
-    </RadioCards.Item>
-    <RadioCards.Item value="L30" className="radio-card" style={{ width: '90px', height: '50px' }}>
-      <Flex direction="column">
-        <Text weight="bold">L 30</Text>
-      </Flex>
-    </RadioCards.Item>
-  </RadioCards.Root>
-</Box> */}
- <Form.Control asChild>
-              <input className="Input" type="text" required value={roomNumber}
-                onChange={(e) => setRoomNumber(e.target.value)} />
-            </Form.Control>
-          </Form.Field>
-       
-        <div className='party-audi' style={{display: 'flex', gap: '70px'}}>
-        <Form.Field className="FormField" name="expectedParticipation">
-          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
-            <Form.Label className="FormLabel">Expected Participation</Form.Label>
-            <Form.Message className="FormMessage" match="valueMissing">
-              Please enter the expected participation
-            </Form.Message>
-          </div>
-          
-          <Form.Control asChild>
-            <input className="Input" type="number" required value={expectedParticipation}
-              onChange={(e) => setExpectedParticipation(e.target.value)} />
-          </Form.Control>
-        </Form.Field>
-        <Form.Field className="FormField" name="expectedParticipatio">
-          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
-            <Form.Label className="FormLabel">Audience</Form.Label>
-            <Form.Message className="FormMessage" match="valueMissing">
-              Please enter the expected audience
-            </Form.Message>
-          </div>
-          
-          <Form.Control asChild>
-            <input className="Input" type="text" required 
-              />
-          </Form.Control>
-        </Form.Field>
-          </div>
-        <Form.Submit asChild>
-          <button type="submit" className="Button" style={{ marginTop: '20px', width: '65rem' }}>
-            Submit
-          </button>
-        </Form.Submit>
-      </Form.Root>
+        <input className="Input" type="text" required value={clubName} onChange={(e) => setClubName(e.target.value)} />
+      </div>
+      <div className="FormField">
+        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+          <label className="FormLabel">Event Name</label>
+          <p className="FormMessage" style={{ color: 'red' }}>
+          Enter Event Name
+          </p>
+        </div>
+        <input className="Input" type="text" required value={eventName} onChange={(e) => setEventName(e.target.value)} />
+      </div>
     </div>
+
+    <div className="FormField">
+      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+        <label className="FormLabel">Brief Description</label>
+        <p className="FormMessage" style={{ color: 'red' }}>
+        Enter Brief Description Name
+        </p>
+      </div>
+      <textarea className="Textarea" required value={briefDescription} style={{ width: '67rem', height: '8rem' }} onChange={(e) => setBriefDescription(e.target.value)} />
     </div>
+
+    <div className="FormField">
+  <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+    <label className="FormLabel">Event Mode (Online/Offline)</label>
+    <p className="FormMessage" style={{ color: 'red' }}>
+      Choose Mode
+    </p>
+  </div>
+
+  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+  <input
+    type="radio"
+    id="online"
+    value="Online"
+    checked={eventMode === 'Online'}
+    onChange={() => setEventMode('Online')}
+    style={{ appearance: 'none', width: '20px', height: '20px', borderRadius: '50%', border: '2px solid #ccc', outline: 'none', cursor: 'pointer' }}
+  />
+  <label htmlFor="online" style={{ cursor: 'pointer' }}>Online</label>
+  <input
+    type="radio"
+    id="offline"
+    value="Offline"
+    checked={eventMode === 'Offline'}
+    onChange={() => setEventMode('Offline')}
+    style={{ appearance: 'none', width: '20px', height: '20px', borderRadius: '50%', border: '2px solid #ccc', outline: 'none', cursor: 'pointer' }}
+  />
+  <label htmlFor="offline" style={{ cursor: 'pointer' }}>Offline</label>
+</div>
+
+</div>
+
+<div className="form-group">
+        <label htmlFor="datePicker">Select Date and Time:</label>
+        <br />
+        <DatePicker
+          id="datePicker"
+          selected={dateTime}
+          onChange={handleDateChange}
+          showTimeSelect
+          dateFormat="MMMM d, yyyy h:mm aa"
+          timeFormat="HH:mm"
+          timeIntervals={15}
+          timeCaption="Time"
+        />
+      </div>
+
+    <div className="FormField">
+      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+        <label className="FormLabel">Room Number</label>
+        <p className="FormMessage" style={{ color: 'red' }}>
+Choose Room Number
+        </p>
+      </div>
+      <input className="Input" type="text" required value={roomNumber} onChange={(e) => setRoomNumber(e.target.value)} />
+    </div>
+  
+    <div className='party-audi' style={{display: 'flex', gap: '70px'}}>
+      <div className="FormField">
+        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+          <label className="FormLabel">Expected Participation</label>
+          <p className="FormMessage" style={{ color: 'red' }}>
+Enter Expected Participation
+          </p>
+        </div>
+        <input className="Input" type="number" required value={expectedParticipation} onChange={(e) => setExpectedParticipation(e.target.value)} />
+      </div>
+      <div className="FormField">
+        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+          <label className="FormLabel">Audience</label>
+          <p className="FormMessage" style={{ color: 'red' }}>
+Enter Audience
+          </p>
+        </div>
+        <input className="Input" type="text" required />
+      </div>
+    </div>
+    
+    <button type="submit" className="Button" style={{ marginTop: '20px', width: '65rem' }}>
+      Submit
+    </button>
+  </form>
+</div>
+</div>
   )
 }
 

@@ -6,7 +6,7 @@ import JwtService from '../services/JwtService.js';
 
 const REFRESH_SECRET = "changemeR";
 
-
+const allAvailableRooms = ['L20', 'L21', 'L26', 'L27', 'Library'];
 
 const cardController = {
     async upload(req, res, next) {
@@ -18,7 +18,7 @@ const cardController = {
             roomNumber: Joi.string(), // Assuming it's applicable only for offline events
             dateTime: Joi.date(),
             expectedParticipation: Joi.number().required(),
-            author: Joi.string().required()
+            author: Joi.string()
         });
 
         const { error } = eventSchemaJoi.validate(req.body);
@@ -26,14 +26,14 @@ const cardController = {
             return next(error);
         }
         //try if room exists
-        try {
-            const exist = await Event.exists({ roomNumber: req.body.roomNumber });
-            if (exist) {
-                return next('This room is already taken.');
-            }
-        } catch (err) {
-            return next(err);
-        }
+        // try {
+        //     // const exist = await Event.exists({ roomNumber: req.body.roomNumber });
+        //     // if (exist) {
+        //     //     return next('This room is already taken.');
+        //     // }
+        // } catch (err) {
+        //     return next(err);
+        // }
         const {
             clubName,
             eventName,
@@ -155,6 +155,63 @@ const cardController = {
         } catch (error) {
             res.status(500).json({ message: error.message });
         }
+    },
+    async getDates(req, res, next) {
+
+
+        try {
+            // Assuming the room number is provided in the request as req.query.roomNumber
+            const roomNumber = req.body.roomNumber;
+        
+            // Find all events that include the specified room number
+            const events = await Event.find({ roomNumber: roomNumber, dateTime: { $gte: new Date() } });
+        
+            if (events.length === 0) {
+                return res.status(404).json({ message: 'No events found for the specified room number' });
+            }
+        
+            // Extract and return the dates of the events
+            const eventDates = events.map(event => event.dateTime.toDateString());
+            const formattedDates = eventDates.map(dateString => {
+                const date = new Date(dateString);
+                const year = date.getFullYear();
+                const month = date.getMonth() + 1; // Months are zero-based
+                const day = date.getDate();
+                return `${year},${month},${day}`;
+              });
+        
+            res.json( formattedDates );
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+        
+
+
+    },
+    async getRooms(req, res, next) {
+
+
+        try {
+            // Assuming the date and time are provided in the request body as req.body.dateTime
+            const dateTime = new Date(req.body.dateTime);
+        
+            // Find all events that occur at the specified date and time
+            const events = await Event.find({ dateTime: dateTime });
+        
+            if (events.length === 0) {
+                return res.status(404).json({ message: 'No events found at the specified date and time' });
+            }
+        
+            // Extract and return the room numbers of the events
+            const roomNumbers = events.map(event => event.roomNumber);
+        
+            res.json({ dateTime: dateTime, roomNumbers: roomNumbers });
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+        
+
+
     }
 }
 

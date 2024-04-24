@@ -25,6 +25,10 @@ router.patch('/cards/:id', cardController.update);
 
 router.get('/cards/one', cardController.loadOne);
 
+router.post('/cards/date', cardController.getDates);
+
+router.post('/cards/room', cardController.getRooms);
+
 
 
 

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Cards from '../components/cards';
 import { useNavigate } from 'react-router-dom';
 import Nabvar from '../components/navbar';
+import Calender from '../components/calender';
 
 
 
@@ -15,7 +16,7 @@ function Dashboard() {
 
   useEffect(() => {
     const fetchMeData = async () => {
-      
+
       try {
         const token = sessionStorage.getItem('accessToken');
         if (!token) {
@@ -23,7 +24,7 @@ function Dashboard() {
           return;
           throw new Error('Access token not found');
         }
-      }catch{
+      } catch {
 
       }
     };
@@ -31,13 +32,24 @@ function Dashboard() {
     fetchMeData();
   }, []);
 
-        
+
   return (
     <div>
- <Nabvar/>
-    <Cards/>
-  </div>
-  
+      <Nabvar />
+      <div style={{ display: 'flex' }}>
+        <div className='cards-container' style={{ flex: '2' }}>
+          <Cards />
+        </div>
+        <div className='calender-container' style={{ flex: '1', margin: '25px', borderRadius: '10px', padding: '20px'}}  >
+          <Calender />
+
+        </div>
+
+
+      </div>
+
+    </div>
+
   )
 
 }
