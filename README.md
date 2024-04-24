@@ -1,4 +1,4 @@
-***Permission Management System for College Clubs***
+# Permission Management System for College Clubs #
 
 **Overview:**
 The Authority Permission Management System (APMS) is a web-based application designed to streamline the process of seeking permission from college authorities for organizing events by societies or clubs. APMS eliminates the need for traditional paper-based methods, offering a centralized platform for submitting requests, tracking approvals, and resolving conflicts efficiently.
