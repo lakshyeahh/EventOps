@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import * as Form from '@radix-ui/react-form';
-import './requestform.css';
+import './styles/requestform.css';
 import { Heading, Box, RadioCards, Flex, Text } from '@radix-ui/themes';
 import { useNavigate } from 'react-router-dom';
 import * as RadioGroup from '@radix-ui/react-radio-group';

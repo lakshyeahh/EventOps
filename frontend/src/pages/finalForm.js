@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import './finalform.css'
+import './styles/finalform.css'
 import Secy from '../images/Secy.jpg';
 import Office from '../images/Office.jpg';
 import CCS from '../images/CCS.jpg';
