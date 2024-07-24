@@ -57,6 +57,5 @@ This project is licensed under the [MIT License](https://opensource.org/licenses
 
 We would like to thank all contributors and supporters who have helped make APMS possible. Your contributions are greatly appreciated.
 
-**Disclaimer:**
-
-This project is developed independently and is not officially endorsed by any college or university. Use of this software is at the user's own risk.
+**Demo:**
+https://www.loom.com/share/c07ddc3041a94e188e392cb57183eaeb?sid=7794634e-656f-4432-aa13-eb811dafc6a1
