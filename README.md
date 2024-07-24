@@ -2,12 +2,16 @@
 
 **Overview:**
 The Authority Permission Management System (APMS) is a web-based application designed to streamline the process of seeking permission from college authorities for organizing events by societies or clubs. APMS eliminates the need for traditional paper-based methods, offering a centralized platform for submitting requests, tracking approvals, and resolving conflicts efficiently.
+![image](https://github.com/user-attachments/assets/313b9d95-538a-45ea-8d21-361081b8fe43)
+
 
 **Key Features:**
 
 1. **Centralized Request Submission**: Users can submit event requests through the APMS platform, providing all necessary details such as event description, date, time, location, and expected attendees.
 
 2. **Automated Workflow**: The system automates the approval workflow, routing requests to the appropriate authorities based on predefined criteria such as event type, size, and potential impact.
+
+![image](https://github.com/user-attachments/assets/82d102e1-3491-487e-8abf-757168390527)
 
 3. **Real-time Status Tracking**: Users can track the status of their requests in real-time, allowing them to monitor progress and receive notifications at each stage of the approval process.
 
@@ -34,7 +38,7 @@ The Authority Permission Management System (APMS) is a web-based application des
 6. **Documentation**: All event-related documents, permissions, and agreements are stored centrally within the platform for easy access and compliance.
 
 7. **Reporting**: Administrators can generate reports and analytics to gain insights into event trends, resource utilization, and approval workflows.
-
+![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/06e5b2b9-5383-4be8-94d3-1e198d1d2be2/3494efba-c528-4042-ac83-40a476df09c0/Untitled.png)
 **Contributing:**
 
 APMS is an open-source project, and contributions are welcome from the community. Developers interested in contributing to the project can fork the repository, make changes, and submit pull requests for review.
