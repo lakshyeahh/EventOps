@@ -38,7 +38,9 @@ The Authority Permission Management System (APMS) is a web-based application des
 6. **Documentation**: All event-related documents, permissions, and agreements are stored centrally within the platform for easy access and compliance.
 
 7. **Reporting**: Administrators can generate reports and analytics to gain insights into event trends, resource utilization, and approval workflows.
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/06e5b2b9-5383-4be8-94d3-1e198d1d2be2/3494efba-c528-4042-ac83-40a476df09c0/Untitled.png)
+
+![Original vs Portal Generated Form](https://github.com/user-attachments/assets/615618e0-e0ff-4333-bb5e-d8d8c31f5bd9)
+
 **Contributing:**
 
 APMS is an open-source project, and contributions are welcome from the community. Developers interested in contributing to the project can fork the repository, make changes, and submit pull requests for review.
